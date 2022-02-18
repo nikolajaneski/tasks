@@ -29,7 +29,7 @@ Route::get('/task/{task}', [TaskController::class, 'show']);
 Route::get('/task/create', [TaskController::class, 'create']);
 
 // Store task into DB
-Route::post('/task', [TaskController::class, 'create']);
+Route::post('/task', [TaskController::class, 'store']);
 
 // Show form for editing taks
 Route::get('/task/{task}/edit', [TaskController::class, 'edit']);
