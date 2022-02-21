@@ -5,12 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Index</title>
+    <style>
+        .completed {
+            text-decoration-line: line-through;
+        }
+    </style>
 </head>
 <body>
     
     @forelse ($tasks as $task)
-        <H4><strong>{{ $task->name }} <br /></strong></H4>
-        <p>{{ $task->description }}</p>
+        <H4><strong @class(['completed' => $task->completed])>{{ $task->name }} <br /></strong></H4>
+        <p @class(['completed' => $task->completed])>{{ $task->description }}</p>
+        <form action="/task/{{ $task->id }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <input type="submit" value="Delete">
+        </form>
     @empty
         There is no tasks
     @endforelse

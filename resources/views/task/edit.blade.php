@@ -7,7 +7,7 @@
     <title>Edit</title>
 </head>
 <body>
-    <form action="/task/{task}" method="POST">
+    <form action="/task/{{ $task->id }}" method="POST">
         @csrf
         @method('PUT')
         Task name <br />
