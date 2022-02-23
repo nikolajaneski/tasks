@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\TaskController;
+use GuzzleHttp\Psr7\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +17,27 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    $tasks = DB::table('tasks') // SELECT * FROM tasks
+                ->where('id', '>', '2') //  where id > 2 
+                ->orWhere(function($query) { //  OR 
+                    $query->where('name', 'like', 'Test @%') // name like 'Test @%'
+                            ->where('completed', '=', 1); // AND completed = 1
+                })->dd(); 
+
+                // $sql = "select * from tasks where id > 2 OR ( name like 'Test @%' AND completed = 1)";
+    
+
+
+    // $tasks = DB::table('users')
+    //             ->where('name', 'Willard Mitchell')
+    //             ->orWhereBetween('id', [3, 8])
+    //             ->orderBy('name', 'desc')
+    //             ->get();
+
+    // $task = DB::table('tasks')->latest()->get();
+        
+    // dd($task);
+
     return view('welcome');
 });
 

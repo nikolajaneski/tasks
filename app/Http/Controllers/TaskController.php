@@ -14,7 +14,10 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = DB::select('select id, name, description, completed from tasks');
+        // $tasks = DB::select('select id, name, description, completed from tasks');
+
+        // Query Builder
+        $tasks = DB::table('tasks')->get();
 // 
         return view('task.index', ['tasks' => $tasks]);
     }
@@ -37,9 +40,16 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $task = DB::insert('insert into tasks (name, description) values (:name, :description)', 
-                    [':name' => $request->name, 'description' => $request->description]);
-        
+        // $task = DB::insert('insert into tasks (user_id, name, description) values (:user_id, :name, :description)', 
+                    // [':user_id' => 3, ':name' => $request->name, 'description' => $request->description]);
+
+        DB::table('tasks')->insert([
+            'user_id' => 3,
+            'name' => $request->name, 
+            'description' => $request->description
+        ]);
+
+
         return redirect('/task');
     }
 
@@ -78,9 +88,14 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-        DB::update('update tasks set name = :name, description = :description where id = :id', 
-                    [':name' => $request->name, 'description' => $request->description, 'id' => $id]);
+        // DB::update('update tasks set name = :name, description = :description where id = :id', 
+        //             [':name' => $request->name, 'description' => $request->description, 'id' => $id]);
         
+        DB::table('tasks')->where('id', $id)
+                ->update([
+                    'name' => $request->name,
+                    'description' => $request->description
+                ]);
         return redirect('/task');
     }
 
@@ -92,8 +107,10 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        DB::delete('delete from tasks where id = :id', [':id' => $id]);
+        // DB::delete('delete from tasks where id = :id', [':id' => $id]);
         
+        DB::table('tasks')->where('id', $id)->delete();
+
         return redirect('/task');
     }
 }
