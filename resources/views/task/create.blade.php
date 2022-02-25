@@ -13,6 +13,9 @@
         <input type="text" name="name"> <br />
         Task description <br />
         <textarea name="description" id="" cols="30" rows="10"></textarea>
+        User Id   <br />
+        <input type="text" name="user_id"> <br />
+
         <input type="submit" name="submit">
     </form>
 </body>
