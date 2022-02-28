@@ -51,6 +51,18 @@ class Task extends Model
 
     // }
 
+    public function taskDetail() {
+        return $this->hasOne(TaskDetail::class);
+    }
+
+    public function items() {
+        return $this->hasMany(Item::class);
+    }
+
+    public function tags() {
+        return $this->belongsToMany(Tag::class, 'task_tag');
+    }
+
 
 }
 

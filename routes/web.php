@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\TaskController;
+use App\Models\Item;
+use App\Models\Tag;
 use App\Models\Task;
+use App\Models\TaskDetail;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -28,15 +31,40 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
-    // $tasks = Task::all();
 
-    foreach(Task::all() as $task) {
-        echo $task->user_id . "<br />";
+
+    // $task = Task::find(2);
+
+    $tasks = Task::with('items')->get();
+
+    foreach($tasks as $task) {
+       $items = $task->items;
     }
 
-    dd("asda");
 
-    return view('welcome');
+    // $taskDetail = TaskDetail::find(1);
+
+    // dd($taskDetail->task);
+
+    // $task = Task::find(2);
+
+    // dd($task->items);
+
+    // foreach(Task::find(2)->items()->where('id', 2)->get() as $item) {
+    //     echo $item->description . '<Br />';
+    // }
+
+    // $item = Item::find(2);
+
+    // dd($item->task);
+    
+    // $tag = Tag::find(2);
+
+    // foreach($tag->tasks as $task) {
+    //     dd($task->pivot->task_id);
+    // }
+
+    // return view('welcome');
 });
 
 

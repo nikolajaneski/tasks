@@ -16,6 +16,13 @@
     @forelse ($tasks as $task)
         <H4><strong @class(['completed' => $task->completed])>{{ $task->name }} <br /></strong></H4>
         <p @class(['completed' => $task->completed])>{{ $task->description }}</p>
+
+        <ul>
+            @foreach ($task->items as $item)
+                <li>{{ $item->description }}</li>
+            @endforeach
+        </ul>
+
         <form action="/task/{{ $task->id }}" method="POST">
             @csrf
             @method('DELETE')
