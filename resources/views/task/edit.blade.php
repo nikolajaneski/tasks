@@ -14,6 +14,7 @@
         <input type="text" name="name" value="{{ $task->name }}"> <br />
         Task description <br />
         <textarea name="description" id="" cols="30" rows="10">{{ $task->description }}</textarea>
+        <input type="hidden" name="token" value="secret-key">
         <input type="submit" name="submit">
     </form>
 </body>

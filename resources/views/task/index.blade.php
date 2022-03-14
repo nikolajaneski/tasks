@@ -27,6 +27,7 @@
             @csrf
             @method('DELETE')
             <input type="submit" value="Delete">
+            <input type="hidden" name="token" value="secret-key">
         </form>
     @empty
         There is no tasks

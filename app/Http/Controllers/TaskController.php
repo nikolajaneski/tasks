@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use stdClass;
 
@@ -22,7 +23,7 @@ class TaskController extends Controller
         // $tasks = DB::table('tasks')->get();
 
         // Eloquent
-        $tasks = Task::all();
+        $tasks = Task::where('user_id', Auth::id())->get();
 
         // $tasks = $tasks->reject(function($taks) {
         //     return $task->completed;
@@ -77,12 +78,11 @@ class TaskController extends Controller
         // dd($params);
 
         $task = Task::create([
-            'user_id' => 3,
+            'user_id' => Auth::id(),
             'name' => $request->name, 
             'description' => $request->description,
    
         ]);
-
 
         return redirect('/task');
     }
@@ -123,8 +123,10 @@ class TaskController extends Controller
         // );
 
         // dd($task);
+        if(Auth::id() !== $task->user_id) 
+            return redirect('/task');
 
-    return view('task.show', ['task' => $task]);
+        return view('task.show', ['task' => $task]);
     }
 
     /**

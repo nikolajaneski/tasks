@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\TaskController;
 use App\Models\Item;
 use App\Models\Tag;
@@ -19,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+                   
 
 
 // class Test {
@@ -29,17 +28,16 @@ use Illuminate\Support\Facades\Route;
 // $test = new Test;
 // echo $test->name;
 
-
 Route::get('/', function () {
 
 
     // $task = Task::find(2);
 
-    $tasks = Task::with('items')->get();
+    // $tasks = Task::with('items')->get();
 
-    foreach($tasks as $task) {
-       $items = $task->items;
-    }
+    // foreach($tasks as $task) {
+    //    $items = $task->items;
+    // }
 
 
     // $taskDetail = TaskDetail::find(1);
@@ -64,29 +62,29 @@ Route::get('/', function () {
     //     dd($task->pivot->task_id);
     // }
 
-    // return view('welcome');
+    return view('welcome');
 });
 
 
 
-// Show all tasks
-Route::get('/task', [TaskController::class, 'index']);
+Route::middleware('auth')->group(function () {
+    Route::get('/task', [TaskController::class, 'index']);
+    Route::get('/task/{task}', [TaskController::class, 'show'])->where('task', '[0-9]+');
+    Route::get('/task/create', [TaskController::class, 'create']);
+    Route::get('/task/{task}/edit', [TaskController::class, 'edit']);
+});
 
-// Show single
-Route::get('/task/{task}', [TaskController::class, 'show'])->where('task', '[0-9]+');
 
-// Show form for creating tasks
-Route::get('/task/create', [TaskController::class, 'create']);
+Route::middleware(['token'])->group(function() {
 
-// Store task into DB
-Route::post('/task', [TaskController::class, 'store']);
+    Route::put('/task/{task}', [TaskController::class, 'update']);
+    Route::post('/task', [TaskController::class, 'store']);
+    Route::delete('/task/{task}', [TaskController::class, 'destroy']);
 
-// Show form for editing taks
-Route::get('/task/{task}/edit', [TaskController::class, 'edit']);
+});
 
-// Update tasks into DB
-Route::put('/task/{task}', [TaskController::class, 'update']);
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
-// Delete task
-Route::delete('/task/{task}', [TaskController::class, 'destroy']);
-
+require __DIR__.'/auth.php';
